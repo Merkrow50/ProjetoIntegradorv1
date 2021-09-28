@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="driver">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Desktop/driver" />
+      <root url="jar://$USER_HOME$/Desktop/postgresql-42.2.24.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
