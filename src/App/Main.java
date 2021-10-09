@@ -1,27 +1,62 @@
 package App;
 
 import DAO.FuncionarioDao;
-import java.sql.SQLException;
 import model.Funcionario;
 
 public class Main {
 
-  public static void main(String[] args) throws SQLException {
+  public static void main(String[] args) {
+    new InterfaceProjetoIntegrador();
 
-    FuncionarioDao dao = new FuncionarioDao();
 
-    Funcionario funcionario10 = new Funcionario("Marcelo","123456",1);
+//    FuncionarioDao dao = new FuncionarioDao();
+//
+//    String nome = "null";
+//    String matricula = "null";
+//
+//
+//    Funcionario funcionario = new Funcionario(nome, matricula);
+//
+//    if (dao.consultar()){
+//
+//      System.out.println("Tabela Funcionário consultada com sucesso!");
+//
+//    }else {
+//
+//      System.out.println("ERRO!");
+//
+//    };
 
-    if (dao.inserir(funcionario10)){
 
-      System.out.println("Funcionario inserido com sucesso!");
+//    if (dao.editar("angela","564685465",5)){
+//
+//      System.out.println("Funcionario editado com sucesso!");
+//
+//    }else {
+//
+//      System.out.println("ERRO!");
+//
+//    }
 
-    }else {
+//    if (dao.inserir(funcionario)){
+//
+//      System.out.println("Funcionario inserido com sucesso!");
+//
+//    }else {
+//
+//      System.out.println("ERRO!");
+//
+//    }
 
-      System.out.println("ERRO!");
-
-    }
-
+//    if (dao.deletar(1)) {
+//
+//      System.out.println("Funcionario deletado com sucesso!");
+//
+//    } else {
+//
+//      System.out.println("ERRO!");
+//
+//    }
 
 
   }
