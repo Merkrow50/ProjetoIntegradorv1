@@ -31,14 +31,36 @@ public class InterfaceProjetoIntegrador extends JFrame {
     JButton buttonFuncionario = new JButton("Funcionário");
     buttonFuncionario.setBounds(130,100,150, 30);
 
+    JButton buttonVeiculo = new JButton("Veiculos");
+    buttonVeiculo.setBounds(130,150,150, 30);
+
+    JButton buttonChamado = new JButton("Chamado");
+    buttonChamado.setBounds(130,200,150, 30);
+
 
 
     contentPane.add(buttonFuncionario,BorderLayout.CENTER);
+    contentPane.add(buttonVeiculo,BorderLayout.CENTER);
+    contentPane.add(buttonChamado,BorderLayout.CENTER);
 
     buttonFuncionario.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
              new InterfaceListFuncionario();
+      }
+    });
+
+    buttonVeiculo.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        new JFrame();
+      }
+    });
+
+    buttonChamado.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        new JFrame();
       }
     });
 

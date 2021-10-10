@@ -25,9 +25,9 @@ public class Main {
 //
 //      System.out.println("ERRO!");
 //
-//    };
+//   };
 
-
+//
 //    if (dao.editar("angela","564685465",5)){
 //
 //      System.out.println("Funcionario editado com sucesso!");

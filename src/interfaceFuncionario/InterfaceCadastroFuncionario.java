@@ -67,6 +67,7 @@ public class InterfaceCadastroFuncionario extends JFrame{
 
           JOptionPane.showMessageDialog(null,"Funcionário salvo com sucesso!");
           setVisible(false);
+          new InterfaceListFuncionario();
         }else {
 
           JOptionPane.showMessageDialog(null,"Algo de errado aconteceu! Tente Novamente!");

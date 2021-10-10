@@ -1,11 +1,13 @@
 package DAO;
 
 import bd.ConnectionFactory;
+import java.io.Serial;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JTable;
+import java.util.ArrayList;
+import java.util.List;
 import model.Funcionario;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,16 +36,19 @@ public class FuncionarioDao {
       return false;
     }
 
-  };
+  }
 
-  public boolean deletar(int id) {
+  ;
+
+  public boolean deletar(Funcionario f) {
     String sql = "DELETE FROM public.\"Funcionario\"" +
-        "WHERE id = " + id + ";";
+        "WHERE id = ?" + ";";
     Connection conn = ConnectionFactory.getConnection();
 
     try {
       PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.execute();
+      stmt.setInt(1,f.getId());
+      stmt.executeUpdate();
       stmt.close();
       conn.close();
       System.out.println("Campo deletado!");
@@ -56,17 +61,22 @@ public class FuncionarioDao {
     }
 
 
-  };
+  }
 
-  public boolean editar(String nome, String matricula, int id){
+  ;
+
+  public boolean editar(Funcionario f) {
     String sql = "UPDATE public.\"Funcionario\"" +
-	"SET nome=" + "'" + nome + "'" + ", matricula=" + "'" + matricula +"'" +
-	"WHERE id =" + id +";";
+        "SET nome = ? "  + ", matricula = ?" +
+        "WHERE id = ? " + ";";
 
     Connection conn = ConnectionFactory.getConnection();
 
     try {
       PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt.setString(1,f.getNome());
+      stmt.setString(2,f.getMatricula());
+      stmt.setInt(3,f.getId());
       stmt.execute();
       stmt.close();
       conn.close();
@@ -79,36 +89,47 @@ public class FuncionarioDao {
       return false;
     }
 
-  };
+  }
 
-  public boolean consultar(){
+  ;
+
+
+  public List<Funcionario> consultar() {
     String sql = "SELECT nome, matricula, id" +
-    " FROM public. \"Funcionario\"" + ";";
+        " FROM public. \"Funcionario\"" + ";";
     Connection conn = ConnectionFactory.getConnection();
 
+    List<Funcionario> funcionarios = new ArrayList<>();
+    Funcionario funcionario;
+
     try {
+      assert conn != null;
       PreparedStatement stmt = conn.prepareStatement(sql);
       ResultSet result = stmt.executeQuery();
 
-      while (result.next()){
+      while (result.next()) {
+        funcionario = new Funcionario(null, null);
 
-        Integer id = result.getInt("id");
-        String nome = result.getString("nome");
-        String matricula = result.getString("matricula");
-
-        System.out.println(String.format("%d\t%s\t%s", id,nome,matricula));
+        funcionario.setNome(result.getString("nome"));
+        funcionario.setMatricula(result.getString("matricula"));
+        funcionario.setId(result.getInt("id"));
+        funcionarios.add(funcionario);
 
       }
+
       System.out.println("tabela consultada!");
-      return true;
+
+
     } catch (SQLException e) {
 
       e.printStackTrace();
       System.out.println("ERRO!");
-      return false;
+      return null;
     }
+    return funcionarios;
 
+  }
 
-  };
+  ;
 
 }
