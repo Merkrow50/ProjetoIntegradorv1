@@ -6,11 +6,19 @@ public class Veiculo {
   private int autonomia;
   private String ano;
   private int quantidade;
+  private int id;
 
   public Veiculo(){
 
 
+  }
 
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public int getAutonomia() {
