@@ -16,14 +16,14 @@ public class VeiculoDao {
 
   public boolean inserir(@NotNull Veiculo veiculo) {
 
-    String sql = "INSERT INTO public.\"Veiculo\"" + "(modelo, autonomia, ano, quantidade)"
+    String sql = "INSERT INTO public.\"veiculo\"" + "(modelo, autonomia, ano, quantidade)"
         + "VALUES (?, ?, ?, ?);";
     Connection conn = ConnectionFactory.getConnection();
 
     try {
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, veiculo.getModelo());
-      stmt.setInt(2, veiculo.getAutonomia());
+      stmt.setFloat(2, veiculo.getAutonomia());
       stmt.setString(3, veiculo.getAno());
       stmt.setInt(4, veiculo.getQuantidade());
       stmt.execute();
@@ -43,8 +43,8 @@ public class VeiculoDao {
   ;
 
   public boolean deletar(Veiculo v) {
-    String sql = "DELETE FROM public.\"Veiculo\"" +
-        "WHERE id = ?" + ";";
+    String sql = "DELETE FROM public.\"veiculo\"" +
+        "WHERE veiculo_id = ?" + ";";
     Connection conn = ConnectionFactory.getConnection();
 
     try {
@@ -68,16 +68,16 @@ public class VeiculoDao {
   ;
 
   public boolean editar(Veiculo v) {
-    String sql = "UPDATE public.\"Veiculo\"" +
+    String sql = "UPDATE public.\"veiculo\"" +
         "SET modelo = ? "  + ", autonomia = ?" + ", ano = ?" + ", quantidade = ?" +
-        "WHERE id = ? " + ";";
+        "WHERE veiculo_id = ? " + ";";
 
     Connection conn = ConnectionFactory.getConnection();
 
     try {
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, v.getModelo());
-      stmt.setInt(2,v.getAutonomia());
+      stmt.setFloat(2,v.getAutonomia());
       stmt.setString(3,v.getAno());
       stmt.setInt(4,v.getQuantidade());
       stmt.setInt(5,v.getId());
@@ -99,8 +99,8 @@ public class VeiculoDao {
 
 
   public List<Veiculo> consultar() {
-    String sql = "SELECT modelo, autonomia, ano, quantidade, id " +
-        " FROM public. \"Veiculo\"" + ";";
+    String sql = "SELECT modelo, autonomia, ano, quantidade, veiculo_id " +
+        " FROM public. \"veiculo\"" + ";";
     Connection conn = ConnectionFactory.getConnection();
 
     List<Veiculo> veiculos = new ArrayList<>();
@@ -115,7 +115,7 @@ public class VeiculoDao {
         veiculo = new Veiculo();
 
         veiculo.setModelo(result.getString("modelo"));
-        veiculo.setAutonomia(result.getInt("autonomia"));
+        veiculo.setAutonomia(result.getFloat("autonomia"));
         veiculo.setAno(result.getString("ano"));
         veiculo.setQuantidade(result.getInt("quantidade"));
         veiculo.setId(result.getInt("id"));

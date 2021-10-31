@@ -3,7 +3,7 @@ package model;
 public class Veiculo {
 
   private String modelo;
-  private int autonomia;
+  private float autonomia;
   private String ano;
   private int quantidade;
   private int id;
@@ -21,7 +21,7 @@ public class Veiculo {
     this.id = id;
   }
 
-  public int getAutonomia() {
+  public float getAutonomia() {
     return autonomia;
   }
 
@@ -41,7 +41,7 @@ public class Veiculo {
     this.ano = ano;
   }
 
-  public void setAutonomia(int autonomia) {
+  public void setAutonomia(float autonomia) {
     this.autonomia = autonomia;
   }
 
@@ -52,6 +52,5 @@ public class Veiculo {
   public void setQuantidade(int quantidade) {
     this.quantidade = quantidade;
   }
-
 
 }

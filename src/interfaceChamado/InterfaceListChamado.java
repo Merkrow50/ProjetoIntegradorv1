@@ -1,5 +1,6 @@
-package interfaceVeiculo;
+package interfaceChamado;
 
+import DAO.ChamadoDao;
 import DAO.FuncionarioDao;
 import DAO.VeiculoDao;
 import java.awt.FlowLayout;
@@ -12,19 +13,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import model.Chamado;
 import model.Funcionario;
 import model.Veiculo;
 
 
-public class InterfaceListVeiculo extends JFrame {
+public class InterfaceListChamado extends JFrame {
 
   @Serial
   private static final long serialVersionUID = 6833478251487492489L;
 
-  VeiculoDao dao = new VeiculoDao();
+  ChamadoDao dao = new ChamadoDao();
+  FuncionarioDao daoFuncionario = new FuncionarioDao();
   JTable table = new JTable();
 
-  public InterfaceListVeiculo() {
+  public InterfaceListChamado() {
     super();
     setSize(400, 500);
     this.setLocationRelativeTo(null);
@@ -33,9 +36,9 @@ public class InterfaceListVeiculo extends JFrame {
         new FlowLayout()
     );
 
-    JButton buttonNewFuncionario = new JButton("Novo");
-    buttonNewFuncionario.setBounds(260, 20, 100, 30);
-    add(buttonNewFuncionario);
+    JButton buttonNewChamado = new JButton("Novo");
+    buttonNewChamado.setBounds(260, 20, 100, 30);
+    add(buttonNewChamado);
 
     JButton buttonDelete = new JButton("Deletar");
     buttonDelete.setBounds(240, 20, 100, 30);
@@ -48,23 +51,18 @@ public class InterfaceListVeiculo extends JFrame {
 
     scrollPane.setViewportView(table);
     DefaultTableModel model = (DefaultTableModel) table.getModel();
-    model.addColumn("Modelo");
-    model.addColumn("Autonomia");
-    model.addColumn("Ano");
-    model.addColumn("Quantidade");
+    model.addColumn("Trajeto");
     model.addColumn("Id");
     model.setNumRows(0);
-    for (Veiculo v : dao.consultar()) {
+    for (Chamado c : dao.consultar()) {
 
       for (int i = 0; i < 1; i++) {
 
         model.addRow(new Object[]{
 
-            v.getModelo(),
-            v.getAutonomia(),
-            v.getAno(),
-            v.getQuantidade(),
-            v.getId(),
+            c.getTrajetoInicio(),
+            c.getTrajetoFim(),
+            c.getId(),
 
         });
 
@@ -85,26 +83,42 @@ public class InterfaceListVeiculo extends JFrame {
       public void actionPerformed(ActionEvent e) {
         if (table.getSelectedRow() != -1){
 
-          Veiculo v1 = new Veiculo();
-          v1.setModelo((String) table.getValueAt(table.getSelectedRow(),0));
-          v1.setAutonomia(Float.parseFloat((String) table.getValueAt(table.getSelectedRow(), 1)));
-          v1.setAno((String) table.getValueAt(table.getSelectedRow(),2));
-          v1.setQuantidade(Integer.parseInt((String) table.getValueAt(table.getSelectedRow(),3)));
-          v1.setId((int) table.getValueAt(table.getSelectedRow(),4));
+          Chamado c1 = new Chamado();
+          c1.setTrajetoInicio((String) table.getValueAt(table.getSelectedRow(),1));
+          c1.setTrajetoFim((String) table.getValueAt(table.getSelectedRow(),2));
 
-          dao.editar(v1);
+          Funcionario f1 = new Funcionario(null,null);
+          f1.setNome((String) table.getValueAt(table.getSelectedRow(),0));
+          f1.setMatricula((String) table.getValueAt(table.getSelectedRow(),1));
+          f1.setId((int) table.getValueAt(table.getSelectedRow(),2));
+
+          daoFuncionario.editar(f1);
           model.setNumRows(0);
-          for (Veiculo v : dao.consultar()) {
+          for (Funcionario f : daoFuncionario.consultar()) {
 
             for (int i = 0; i < 1; i++) {
 
               model.addRow(new Object[]{
 
-                  v.getModelo(),
-                  v.getAutonomia(),
-                  v.getAno(),
-                  v.getQuantidade(),
-                  v.getId(),
+                  f.getNome(),
+                  f.getMatricula(),
+                  f.getId(),
+
+              });
+
+            }
+
+          dao.editar(c1);
+          model.setNumRows(0);
+          for (Chamado c : dao.consultar()) {
+
+            for (int i = 0; i < 1; i++) {
+
+              model.addRow(new Object[]{
+
+                  c.getTrajetoInicio(),
+                  c.getTrajetoFim(),
+                  c.getId(),
 
               });
 
@@ -113,7 +127,7 @@ public class InterfaceListVeiculo extends JFrame {
 
         }else {
 
-          JOptionPane.showMessageDialog(null,"Edite o Veiculo e selecione a linha após isso click em editar!");
+          JOptionPane.showMessageDialog(null,"Edite o Chamado e selecione a linha após isso click em editar!");
 
         }
       }
@@ -126,22 +140,21 @@ public class InterfaceListVeiculo extends JFrame {
       public void actionPerformed(ActionEvent e) {
         if (table.getSelectedRow() != -1){
 
-          Veiculo v1 = new Veiculo();
-          v1.setId((int) table.getValueAt(table.getSelectedRow(),4));
+          Chamado c1 = new Chamado();
+          c1.setId((int) table.getValueAt(table.getSelectedRow(),4));
 
-          dao.deletar(v1);
+          dao.deletar(c1);
           model.setNumRows(0);
-          for (Veiculo v : dao.consultar()) {
+          for (Chamado c : dao.consultar()) {
 
             for (int i = 0; i < 1; i++) {
 
               model.addRow(new Object[]{
 
-                  v.getModelo(),
-                  v.getAutonomia(),
-                  v.getAno(),
-                  v.getQuantidade(),
-                  v.getId(),
+                  c.getFuncionario(),
+                  c.getVeiculo(),
+                  c.getTrajeto(),
+                  c.getId(),
 
               });
 
@@ -150,18 +163,18 @@ public class InterfaceListVeiculo extends JFrame {
 
         }else {
 
-          JOptionPane.showMessageDialog(null,"Selecione um Veiculo para excluir!");
+          JOptionPane.showMessageDialog(null,"Selecione um Chamado para excluir!");
 
         }
       }
     });
 
 // ACTION LISTENER DO BOTÃO DE NOVO FUNCIONÁRIO
-    buttonNewFuncionario.addActionListener(new ActionListener() {
+    buttonNewChamado.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         setVisible(false);
-        new InterfaceCadastroVeiculo();
+        new InterfaceCadastroChamado();
       }
     });
 

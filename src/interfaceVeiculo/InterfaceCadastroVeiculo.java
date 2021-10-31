@@ -82,7 +82,7 @@ public class InterfaceCadastroVeiculo extends JFrame{
         Veiculo veiculo = new Veiculo();
 
         veiculo.setModelo(modeloTxFld.getText());
-        veiculo.setAutonomia(Integer.parseInt(autonomiaTxFld.getText()));
+        veiculo.setAutonomia(Float.parseFloat((autonomiaTxFld.getText())));
         veiculo.setAno(anoTxFld.getText());
         veiculo.setQuantidade(Integer.parseInt(quantidadeTxFld.getText()));
 

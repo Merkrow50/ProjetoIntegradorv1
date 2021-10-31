@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import model.Funcionario;
-import org.jetbrains.annotations.NotNull;
 
 public class InterfaceCadastroFuncionario extends JFrame{
 

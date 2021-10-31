@@ -7,23 +7,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Funcionario;
+import model.Chamado;
 import org.jetbrains.annotations.NotNull;
 
+public class Chamado_FuncionarioDAO {
 
-public class FuncionarioDao {
+  public boolean inserir(@NotNull Chamado chamado) {
 
-
-  public boolean inserir(@NotNull Funcionario funcionario) {
-
-    String sql = "INSERT INTO public.\"funcionario\"" + "(nome, matricula)"
+    String sql = "INSERT INTO public.\"chamado_funcionario\"" + "(chamado_id ,funcionario_id)"
         + "VALUES (?, ?);";
     Connection conn = ConnectionFactory.getConnection();
 
     try {
       PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.setString(1, funcionario.getNome());
-      stmt.setString(2, funcionario.getMatricula());
+      stmt.setInt(1, chamado.getTrajetoInicio());
+      stmt.setInt(2, chamado.getTrajetoFim());
+      stmt.setInt(3, chamado.getVeiculo_id());
       stmt.execute();
       stmt.close();
       conn.close();
@@ -40,14 +39,14 @@ public class FuncionarioDao {
 
   ;
 
-  public boolean deletar(Funcionario f) {
-    String sql = "DELETE FROM public.\"funcionario\"" +
-        "WHERE funcionario_id = ?" + ";";
+  public boolean deletar(Chamado c) {
+    String sql = "DELETE FROM public.\"chamado\"" +
+        "WHERE chamado_id = ?" + ";";
     Connection conn = ConnectionFactory.getConnection();
 
     try {
       PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.setInt(1,f.getId());
+      stmt.setInt(1,c.getId());
       stmt.executeUpdate();
       stmt.close();
       conn.close();
@@ -65,18 +64,18 @@ public class FuncionarioDao {
 
   ;
 
-  public boolean editar(Funcionario f) {
-    String sql = "UPDATE public.\"funcionario\"" +
-        "SET nome = ? "  + ", matricula = ?" +
-        "WHERE funcionario_id = ? " + ";";
+  public boolean editar(Chamado c) {
+    String sql = "UPDATE public.\"chamado\"" +
+        "SET  trejeto_inicial = ?, trajeto_final = ?" +
+        "WHERE chamado_id = ? " + ";";
 
     Connection conn = ConnectionFactory.getConnection();
 
     try {
       PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.setString(1,f.getNome());
-      stmt.setString(2,f.getMatricula());
-      stmt.setInt(3,f.getId());
+      stmt.setString(1,c.getTrajetoInicio());
+      stmt.setString(2,c.getTrajetoFim());
+      stmt.setInt(3,c.getId());
       stmt.execute();
       stmt.close();
       conn.close();
@@ -94,13 +93,13 @@ public class FuncionarioDao {
   ;
 
 
-  public List<Funcionario> consultar() {
-    String sql = "SELECT nome, matricula, funcionario_id" +
-        " FROM public. \"funcionario\"" + ";";
+  public List<Chamado> consultar() {
+    String sql = "SELECT  trejeto_inicial, trajeto_final, chamado_id " +
+        " FROM public. \"chamado\"" + ";";
     Connection conn = ConnectionFactory.getConnection();
 
-    List<Funcionario> funcionarios = new ArrayList<>();
-    Funcionario funcionario;
+    List<Chamado> chamados = new ArrayList<>();
+    Chamado chamado;
 
     try {
       assert conn != null;
@@ -108,12 +107,12 @@ public class FuncionarioDao {
       ResultSet result = stmt.executeQuery();
 
       while (result.next()) {
-        funcionario = new Funcionario(null, null);
+        chamado = new Chamado();
 
-        funcionario.setNome(result.getString("nome"));
-        funcionario.setMatricula(result.getString("matricula"));
-        funcionario.setId(result.getInt("id"));
-        funcionarios.add(funcionario);
+        chamado.setTrajetoInicio(result.getString("trajeto_inicial"));
+        chamado.setTrajetoFim(result.getString("trajeto_final"));
+        chamado.setId(result.getInt("chamado_id"));
+        chamados.add(chamado);
 
       }
 
@@ -126,7 +125,7 @@ public class FuncionarioDao {
       System.out.println("ERRO!");
       return null;
     }
-    return funcionarios;
+    return chamados;
 
   }
 
