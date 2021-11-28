@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
+import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -24,12 +25,14 @@ public class InterfaceListChamado extends JFrame {
   private static final long serialVersionUID = 6833478251487492489L;
 
   ChamadoDao dao = new ChamadoDao();
-  FuncionarioDao daoFuncionario = new FuncionarioDao();
+  FuncionarioDao funcionarioDao = new FuncionarioDao();
+  VeiculoDao veiculoDao = new VeiculoDao();
+
   JTable table = new JTable();
 
   public InterfaceListChamado() {
     super();
-    setSize(400, 500);
+    setSize(800, 1000);
     this.setLocationRelativeTo(null);
     JScrollPane scrollPane = new JScrollPane();
     setLayout(
@@ -45,33 +48,39 @@ public class InterfaceListChamado extends JFrame {
     add(buttonDelete);
 
     JButton buttonEdit = new JButton("Editar");
-    buttonDelete.setBounds(240, 20, 100, 30);
+    buttonEdit.setBounds(240, 20, 100, 30);
     add(buttonEdit);
 
+    JButton buttonFinish = new JButton("Finalizar Chamado");
+    buttonFinish.setBounds(240, 20, 100, 30);
+    add(buttonFinish);
 
     scrollPane.setViewportView(table);
     DefaultTableModel model = (DefaultTableModel) table.getModel();
-    model.addColumn("Trajeto");
-    model.addColumn("Id");
+    model.addColumn("Destino");
+    model.addColumn("Veiculo");
+    model.addColumn("Funcionario");
+    model.addColumn("id");
     model.setNumRows(0);
+    Funcionario funcionario = new Funcionario(null, null, false);
     for (Chamado c : dao.consultar()) {
-
       for (int i = 0; i < 1; i++) {
 
         model.addRow(new Object[]{
 
-            c.getTrajetoInicio(),
             c.getTrajetoFim(),
-            c.getId(),
+            c.getVeiculo().getModelo(),
+            c.getFuncionario().getNome(),
+            c.getId()
 
         });
 
       }
-    };
-
+    }
+    ;
 
     add(scrollPane);
-    setSize(500, 600);
+    setSize(600, 600);
     setResizable(false);
     setLocationRelativeTo(null);
     setVisible(true);
@@ -81,53 +90,17 @@ public class InterfaceListChamado extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (table.getSelectedRow() != -1){
+        if (table.getSelectedRow() != -1) {
 
           Chamado c1 = new Chamado();
-          c1.setTrajetoInicio((String) table.getValueAt(table.getSelectedRow(),1));
-          c1.setTrajetoFim((String) table.getValueAt(table.getSelectedRow(),2));
+          c1.setId((int) table.getValueAt(table.getSelectedRow(), 3));
+          setVisible(false);
 
-          Funcionario f1 = new Funcionario(null,null);
-          f1.setNome((String) table.getValueAt(table.getSelectedRow(),0));
-          f1.setMatricula((String) table.getValueAt(table.getSelectedRow(),1));
-          f1.setId((int) table.getValueAt(table.getSelectedRow(),2));
+          new InterfaceEditarChamado(c1);
 
-          daoFuncionario.editar(f1);
-          model.setNumRows(0);
-          for (Funcionario f : daoFuncionario.consultar()) {
+        } else {
 
-            for (int i = 0; i < 1; i++) {
-
-              model.addRow(new Object[]{
-
-                  f.getNome(),
-                  f.getMatricula(),
-                  f.getId(),
-
-              });
-
-            }
-
-          dao.editar(c1);
-          model.setNumRows(0);
-          for (Chamado c : dao.consultar()) {
-
-            for (int i = 0; i < 1; i++) {
-
-              model.addRow(new Object[]{
-
-                  c.getTrajetoInicio(),
-                  c.getTrajetoFim(),
-                  c.getId(),
-
-              });
-
-            }
-          };
-
-        }else {
-
-          JOptionPane.showMessageDialog(null,"Edite o Chamado e selecione a linha após isso click em editar!");
+          JOptionPane.showMessageDialog(null, "Edite o Chamado e selecione a linha após isso click em editar!");
 
         }
       }
@@ -138,32 +111,38 @@ public class InterfaceListChamado extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (table.getSelectedRow() != -1){
+        if (table.getSelectedRow() != -1) {
 
           Chamado c1 = new Chamado();
-          c1.setId((int) table.getValueAt(table.getSelectedRow(),4));
+          c1.setId(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 3).toString()));
 
           dao.deletar(c1);
-          model.setNumRows(0);
-          for (Chamado c : dao.consultar()) {
+          setVisible(false);
+          new InterfaceListChamado();
 
-            for (int i = 0; i < 1; i++) {
+        } else {
 
-              model.addRow(new Object[]{
+          JOptionPane.showMessageDialog(null, "Selecione um Chamado para excluir!");
 
-                  c.getFuncionario(),
-                  c.getVeiculo(),
-                  c.getTrajeto(),
-                  c.getId(),
+        }
+      }
+    });
 
-              });
+    buttonFinish.addActionListener(new ActionListener() {
 
-            }
-          };
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if (table.getSelectedRow() != -1) {
 
-        }else {
+          Chamado c1 = new Chamado();
+          c1.setId(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 3).toString()));
+          new InterfaceFinalizarChamado(c1);
+          setVisible(false);
 
-          JOptionPane.showMessageDialog(null,"Selecione um Chamado para excluir!");
+
+        } else {
+
+          JOptionPane.showMessageDialog(null, "Selecione um Chamado para Finalizar!");
 
         }
       }
@@ -174,15 +153,17 @@ public class InterfaceListChamado extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         setVisible(false);
-        new InterfaceCadastroChamado();
+        try {
+          new InterfaceCadastroChamado();
+        } catch (SQLException ex) {
+          ex.printStackTrace();
+        }
       }
     });
 
     setResizable(false);
     setVisible(true);
   }
-
-
 
 
 }

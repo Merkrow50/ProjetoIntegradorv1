@@ -2,23 +2,22 @@ package model;
 
 public class Chamado {
 
-  private int veiculo_id;
+  private Veiculo veiculo;
   private Funcionario funcionario;
   private String trajetoInicio;
   private String trajetoFim;
   private int id;
 
-  public Chamado(){
-
+  public Chamado() {
 
   }
 
-  public int getVeiculo_id() {
-    return veiculo_id;
+  public Veiculo getVeiculo() {
+    return veiculo;
   }
 
-  public void setVeiculo_id(int veiculo_id) {
-    this.veiculo_id = veiculo_id;
+  public void setVeiculo(Veiculo veiculo) {
+    this.veiculo = veiculo;
   }
 
   public String getTrajetoFim() {
@@ -41,13 +40,15 @@ public class Chamado {
     return trajetoInicio;
   }
 
-  public void setTrajetoInicio(String trajetoInicio ) {
+  public void setTrajetoInicio(String trajetoInicio) {
     this.trajetoInicio = trajetoInicio;
   }
+
   public int getId() {
     return id;
   }
 
   public void setId(int id) {
+    this.id = id;
   }
 }

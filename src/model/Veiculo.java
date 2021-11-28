@@ -4,12 +4,11 @@ public class Veiculo {
 
   private String modelo;
   private float autonomia;
-  private String ano;
+  private int ano;
   private int quantidade;
   private int id;
 
-  public Veiculo(){
-
+  public Veiculo() {
 
   }
 
@@ -29,7 +28,7 @@ public class Veiculo {
     return quantidade;
   }
 
-  public String getAno() {
+  public int getAno() {
     return ano;
   }
 
@@ -37,7 +36,7 @@ public class Veiculo {
     return modelo;
   }
 
-  public void setAno(String ano) {
+  public void setAno(int ano) {
     this.ano = ano;
   }
 

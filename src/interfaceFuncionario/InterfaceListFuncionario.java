@@ -43,7 +43,6 @@ public class InterfaceListFuncionario extends JFrame {
     buttonDelete.setBounds(240, 20, 100, 30);
     add(buttonEdit);
 
-
     scrollPane.setViewportView(table);
     DefaultTableModel model = (DefaultTableModel) table.getModel();
     model.addColumn("Nome");
@@ -63,8 +62,8 @@ public class InterfaceListFuncionario extends JFrame {
         });
 
       }
-    };
-
+    }
+    ;
 
     add(scrollPane);
     setSize(500, 600);
@@ -77,33 +76,18 @@ public class InterfaceListFuncionario extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (table.getSelectedRow() != -1){
+        if (table.getSelectedRow() != -1) {
 
-          Funcionario f1 = new Funcionario(null,null);
-          f1.setNome((String) table.getValueAt(table.getSelectedRow(),0));
-          f1.setMatricula((String) table.getValueAt(table.getSelectedRow(),1));
-          f1.setId((int) table.getValueAt(table.getSelectedRow(),2));
+          Funcionario f1 = new Funcionario(null, null, false);
+          f1.setId((int) table.getValueAt(table.getSelectedRow(), 2));
 
-          dao.editar(f1);
-          model.setNumRows(0);
-          for (Funcionario f : dao.consultar()) {
+          setVisible(false);
+          new InterfaceEditarFuncionario(f1);
 
-            for (int i = 0; i < 1; i++) {
 
-              model.addRow(new Object[]{
+        } else {
 
-                  f.getNome(),
-                  f.getMatricula(),
-                  f.getId(),
-
-              });
-
-            }
-          };
-
-        }else {
-
-          JOptionPane.showMessageDialog(null,"Edite o Funcionário e selecione a linha após isso click em editar!");
+          JOptionPane.showMessageDialog(null, "Edite o Funcionário e selecione a linha após isso click em editar!");
 
         }
       }
@@ -114,10 +98,10 @@ public class InterfaceListFuncionario extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (table.getSelectedRow() != -1){
+        if (table.getSelectedRow() != -1) {
 
-          Funcionario f1 = new Funcionario(null,null);
-          f1.setId((int) table.getValueAt(table.getSelectedRow(),2));
+          Funcionario f1 = new Funcionario(null, null, false);
+          f1.setId((int) table.getValueAt(table.getSelectedRow(), 2));
 
           dao.deletar(f1);
           model.setNumRows(0);
@@ -134,11 +118,12 @@ public class InterfaceListFuncionario extends JFrame {
               });
 
             }
-          };
+          }
+          ;
 
-        }else {
+        } else {
 
-          JOptionPane.showMessageDialog(null,"Selecione um funcionário para excluir!");
+          JOptionPane.showMessageDialog(null, "Selecione um funcionário para excluir!");
 
         }
       }
@@ -156,8 +141,6 @@ public class InterfaceListFuncionario extends JFrame {
     setResizable(false);
     setVisible(true);
   }
-
-
 
 
 }

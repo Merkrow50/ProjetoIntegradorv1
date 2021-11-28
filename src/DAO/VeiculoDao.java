@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import model.Funcionario;
 import model.Veiculo;
 import org.jetbrains.annotations.NotNull;
@@ -16,16 +17,15 @@ public class VeiculoDao {
 
   public boolean inserir(@NotNull Veiculo veiculo) {
 
-    String sql = "INSERT INTO public.\"veiculo\"" + "(modelo, autonomia, ano, quantidade)"
-        + "VALUES (?, ?, ?, ?);";
+    String sql = "INSERT INTO public.\"veiculo\"" + "(modelo, autonomia, ano)"
+        + "VALUES (?, ?, ?);";
     Connection conn = ConnectionFactory.getConnection();
 
     try {
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, veiculo.getModelo());
       stmt.setFloat(2, veiculo.getAutonomia());
-      stmt.setString(3, veiculo.getAno());
-      stmt.setInt(4, veiculo.getQuantidade());
+      stmt.setInt(3, veiculo.getAno());
       stmt.execute();
       stmt.close();
       conn.close();
@@ -56,7 +56,7 @@ public class VeiculoDao {
       System.out.println("Campo deletado!");
       return true;
     } catch (SQLException e) {
-
+      JOptionPane.showMessageDialog(null, "Campo não pode ser deletado! Verifique se não há nenhum chamado com este veiculo em aberto!");
       e.printStackTrace();
       System.out.println("ERRO!");
       return false;
@@ -78,7 +78,7 @@ public class VeiculoDao {
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, v.getModelo());
       stmt.setFloat(2,v.getAutonomia());
-      stmt.setString(3,v.getAno());
+      stmt.setInt(3,v.getAno());
       stmt.setInt(4,v.getQuantidade());
       stmt.setInt(5,v.getId());
       stmt.execute();
@@ -116,9 +116,9 @@ public class VeiculoDao {
 
         veiculo.setModelo(result.getString("modelo"));
         veiculo.setAutonomia(result.getFloat("autonomia"));
-        veiculo.setAno(result.getString("ano"));
+        veiculo.setAno(result.getInt("ano"));
         veiculo.setQuantidade(result.getInt("quantidade"));
-        veiculo.setId(result.getInt("id"));
+        veiculo.setId(result.getInt("veiculo_id"));
         veiculos.add(veiculo);
 
       }
@@ -134,8 +134,36 @@ public class VeiculoDao {
     }
     return veiculos;
 
+  };
+
+  public void veiculoEmEdicao(Veiculo veiculo){
+    String sql = "SELECT modelo, ano, autonomia, quantidade, veiculo_id" +
+        " FROM public. \"veiculo\"" + " WHERE veiculo_id=?;";
+    Connection conn = ConnectionFactory.getConnection();
+
+    try {
+      assert conn != null;
+      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt.setInt(1,veiculo.getId());
+      ResultSet result = stmt.executeQuery();
+
+      while (result.next()) {
+        veiculo.setModelo(result.getString("modelo"));
+        veiculo.setAno(result.getInt("ano"));
+        veiculo.setAutonomia(result.getFloat("autonomia"));
+        veiculo.setQuantidade(result.getInt("quantidade"));
+        veiculo.setId(result.getInt("veiculo_id"));
+
+      }
+
+      System.out.println("tabela consultada!");
+
+
+    } catch (SQLException e) {
+
+      e.printStackTrace();
+      System.out.println("ERRO!");
+    }
   }
 
-  ;
-
-}
+  }

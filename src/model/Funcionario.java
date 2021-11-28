@@ -5,12 +5,14 @@ public class Funcionario {
 
   private String matricula;
   private String nome;
+  private boolean habilitado;
   private int id;
 
-  public Funcionario(String nome, String matricula) {
+  public Funcionario(String nome, String matricula, Boolean habilitado) {
 
     this.nome = nome;
     this.matricula = matricula;
+    this.habilitado = habilitado;
 
   }
 
@@ -45,5 +47,13 @@ public class Funcionario {
         ", nome='" + nome + '\'' +
         ", id=" + id +
         '}';
+  }
+
+  public void setHabilitado(boolean habilitado) {
+    this.habilitado = habilitado;
+  }
+
+  public boolean isHabilitado() {
+    return habilitado;
   }
 }

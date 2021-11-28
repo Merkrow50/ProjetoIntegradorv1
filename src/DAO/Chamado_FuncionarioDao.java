@@ -10,7 +10,7 @@ import java.util.List;
 import model.Chamado;
 import org.jetbrains.annotations.NotNull;
 
-public class Chamado_FuncionarioDAO {
+public class Chamado_FuncionarioDao {
 
   public boolean inserir(@NotNull Chamado chamado) {
 
@@ -20,9 +20,8 @@ public class Chamado_FuncionarioDAO {
 
     try {
       PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.setInt(1, chamado.getTrajetoInicio());
-      stmt.setInt(2, chamado.getTrajetoFim());
-      stmt.setInt(3, chamado.getVeiculo_id());
+      stmt.setInt(1, chamado.getId());
+      stmt.setInt(2, chamado.getFuncionario().getId());
       stmt.execute();
       stmt.close();
       conn.close();
@@ -40,13 +39,14 @@ public class Chamado_FuncionarioDAO {
   ;
 
   public boolean deletar(Chamado c) {
-    String sql = "DELETE FROM public.\"chamado\"" +
-        "WHERE chamado_id = ?" + ";";
+    String sql = "DELETE FROM public.\"chamado_funcionario\"" +
+        "WHERE (chamado_id = ? , funcionario_id  = ?)" + ";";
     Connection conn = ConnectionFactory.getConnection();
 
     try {
       PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.setInt(1,c.getId());
+      stmt.setInt(1, c.getId());
+      stmt.setInt(2, c.getFuncionario().getId());
       stmt.executeUpdate();
       stmt.close();
       conn.close();
@@ -64,38 +64,10 @@ public class Chamado_FuncionarioDAO {
 
   ;
 
-  public boolean editar(Chamado c) {
-    String sql = "UPDATE public.\"chamado\"" +
-        "SET  trejeto_inicial = ?, trajeto_final = ?" +
-        "WHERE chamado_id = ? " + ";";
-
-    Connection conn = ConnectionFactory.getConnection();
-
-    try {
-      PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.setString(1,c.getTrajetoInicio());
-      stmt.setString(2,c.getTrajetoFim());
-      stmt.setInt(3,c.getId());
-      stmt.execute();
-      stmt.close();
-      conn.close();
-      System.out.println("Campo editado!");
-      return true;
-    } catch (SQLException e) {
-
-      e.printStackTrace();
-      System.out.println("ERRO!");
-      return false;
-    }
-
-  }
-
-  ;
-
 
   public List<Chamado> consultar() {
-    String sql = "SELECT  trejeto_inicial, trajeto_final, chamado_id " +
-        " FROM public. \"chamado\"" + ";";
+    String sql = "SELECT  chamado_id, funcionario_id " +
+        " FROM public. \"chamado_funcionario\"" + ";";
     Connection conn = ConnectionFactory.getConnection();
 
     List<Chamado> chamados = new ArrayList<>();
@@ -109,9 +81,8 @@ public class Chamado_FuncionarioDAO {
       while (result.next()) {
         chamado = new Chamado();
 
-        chamado.setTrajetoInicio(result.getString("trajeto_inicial"));
-        chamado.setTrajetoFim(result.getString("trajeto_final"));
         chamado.setId(result.getInt("chamado_id"));
+        chamado.getFuncionario().setId(result.getInt("funcionario_id"));
         chamados.add(chamado);
 
       }

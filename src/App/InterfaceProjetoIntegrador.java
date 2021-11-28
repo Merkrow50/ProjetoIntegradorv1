@@ -1,25 +1,21 @@
 package App;
 
-import interfaceFuncionario.InterfaceCadastroFuncionario;
+import DAO.ArvoreDAO;
+import interfaceChamado.InterfaceListChamado;
 import interfaceFuncionario.InterfaceListFuncionario;
 import interfaceVeiculo.InterfaceListVeiculo;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
 import java.util.Objects;
-import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.OverlayLayout;
+import javax.swing.JPanel;
 
 
 public class InterfaceProjetoIntegrador extends JFrame {
@@ -30,7 +26,7 @@ public class InterfaceProjetoIntegrador extends JFrame {
   Color background = new Color(126, 234, 15, 255);
   Color button = new Color(24, 109, 60);
   Color btnFontColor = new Color(255, 255, 255);
-
+  ArvoreDAO arvoreDAO = new ArvoreDAO();
   public InterfaceProjetoIntegrador(){
     super();
     setSize(400,500);
@@ -68,11 +64,70 @@ public class InterfaceProjetoIntegrador extends JFrame {
     buttonChamado.setForeground(btnFontColor);
     buttonChamado.setBackground(button);
 
+    JLabel somarLabel = new JLabel();
+    somarLabel.setBounds(100,100,10,30);
 
+    somarLabel.setText(String.valueOf(arvoreDAO.consultar()));
+
+    JButton buttonSomar = new JButton("+");
+    buttonSomar.setBackground(button);
+    buttonSomar.setBorderPainted(false);
+    buttonSomar.setForeground(btnFontColor);
+
+    JButton buttonSubtrair = new JButton("-");
+    buttonSubtrair.setBorderPainted(false);
+    buttonSubtrair.setBackground(button);
+    buttonSubtrair.setForeground(btnFontColor);
+
+    JLabel txtArvore = new JLabel();
+    txtArvore.setText("Nº TOTAL DE ARVORES PLANTADAS:");
+
+    JLabel txtCO2 = new JLabel();
+    txtCO2.setText("Nº TOTAL DE CO2 ABSORVIDO: " + arvoreDAO.consultar() * 15.6 + " KG/ANO");
+
+    JPanel novoPanel = new JPanel();
+
+    JPanel novoPanel2 = new JPanel();
+    novoPanel.setBackground(background);
+    novoPanel.add(txtArvore);
+    novoPanel.add(buttonSubtrair);
+    novoPanel.add(somarLabel);
+    novoPanel.add(buttonSomar);
+    novoPanel2.add(txtCO2);
 
     contentPane.add(buttonFuncionario,FlowLayout.CENTER);
     contentPane.add(buttonVeiculo,FlowLayout.CENTER);
     contentPane.add(buttonChamado,FlowLayout.CENTER);
+
+    contentPane.add(novoPanel);
+    contentPane.add(novoPanel2);
+
+    final int[] contador = {0};
+    final int[] contador1 = {-1};
+
+    buttonSomar.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        contador[0] = arvoreDAO.consultar() + 1;
+        contador1[0] = arvoreDAO.consultar();
+        arvoreDAO.atualizat(contador1[0],contador[0]);
+        somarLabel.setText(String.valueOf(arvoreDAO.consultar()));
+        txtCO2.setText("Nº TOTAL DE CO2 ABSORVIDO: " + arvoreDAO.consultar() * 15.6 + " KG/ANO");
+
+
+      }
+    });
+
+    buttonSubtrair.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        contador[0] = arvoreDAO.consultar() - 1;
+        contador1[0] = arvoreDAO.consultar();
+        arvoreDAO.atualizat(contador1[0],contador[0]);
+        somarLabel.setText(String.valueOf(arvoreDAO.consultar()));
+        txtCO2.setText("Nº TOTAL DE CO2 ABSORVIDO: " + arvoreDAO.consultar() * 15.6 + " KG/ANO");
+      }
+    });
 
     buttonFuncionario.addActionListener(new ActionListener() {
       @Override
@@ -91,7 +146,7 @@ public class InterfaceProjetoIntegrador extends JFrame {
     buttonChamado.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        new JFrame();
+        new InterfaceListChamado();
       }
     });
 

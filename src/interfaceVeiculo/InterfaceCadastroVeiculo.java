@@ -61,16 +61,6 @@ public class InterfaceCadastroVeiculo extends JFrame{
     anoTxFld.setSize(150,20);
     add(anoTxFld);
 
-    JLabel quantidadeLabel = new JLabel();
-    quantidadeLabel.setText("Quantidade:");
-    quantidadeLabel.setBounds(60,180,100, 40);
-    add(quantidadeLabel);
-
-    JTextField quantidadeTxFld = new JTextField();
-    quantidadeTxFld.setBounds(130,190,100, 40);
-    quantidadeTxFld.setSize(150,20);
-    add(quantidadeTxFld);
-
     JButton buttonAddVeiculo = new JButton("Cadastrar");
     buttonAddVeiculo.setBounds(130,220,100, 30);
     add(buttonAddVeiculo);
@@ -83,8 +73,7 @@ public class InterfaceCadastroVeiculo extends JFrame{
 
         veiculo.setModelo(modeloTxFld.getText());
         veiculo.setAutonomia(Float.parseFloat((autonomiaTxFld.getText())));
-        veiculo.setAno(anoTxFld.getText());
-        veiculo.setQuantidade(Integer.parseInt(quantidadeTxFld.getText()));
+        veiculo.setAno((Integer.parseInt(anoTxFld.getText())));
 
         if (dao.inserir(veiculo)){
 

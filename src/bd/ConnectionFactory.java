@@ -31,6 +31,7 @@ public class ConnectionFactory {
       /** Obtendo a conexao com o banco de dados*/
       con = DriverManager.getConnection(endereco, usuario, senha);
 
+
       System.out.println("Conectado");
       return con;
       /** Retorna um erro caso nao encontre o driver, ou alguma informacao sobre o mesmo

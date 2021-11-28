@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -50,6 +51,21 @@ public class InterfaceCadastroFuncionario extends JFrame{
     matriculaTxFld.setSize(150,20);
     add(matriculaTxFld);
 
+    JLabel habilitadoLabel = new JLabel();
+    habilitadoLabel.setText("Habilitado:");
+    habilitadoLabel.setBounds(90,150,100, 40);
+    add(habilitadoLabel);
+
+    IsHabilitado habilitado[] = IsHabilitado.values();
+
+    JComboBox habilitadoTxFld = new JComboBox();
+    for (IsHabilitado h : habilitado) {
+      habilitadoTxFld.addItem(h);
+    }
+    habilitadoTxFld.setBounds(150,160,100, 40);
+    habilitadoTxFld.setSize(150,20);
+    add(habilitadoTxFld);
+
     JButton buttonAddFuncionario = new JButton("Cadastrar");
     buttonAddFuncionario.setBounds(130,200,100, 30);
     add(buttonAddFuncionario);
@@ -60,8 +76,20 @@ public class InterfaceCadastroFuncionario extends JFrame{
         FuncionarioDao dao = new FuncionarioDao();
         String nome = nomeTxFld.getText();
         String matricula = matriculaTxFld.getText();
-        Funcionario funcionario = new Funcionario(nome, matricula);
+        int habilitado = habilitadoTxFld.getSelectedIndex();
 
+        System.out.println(habilitado);
+
+        Funcionario funcionario;
+        if(habilitado == 0){
+
+          funcionario = new Funcionario(nome, matricula, IsHabilitado.HABILITADO.ishabilitado);
+
+        }else{
+
+          funcionario = new Funcionario(nome, matricula, IsHabilitado.DESABILITADO.ishabilitado);
+
+        }
         if (dao.inserir(funcionario)){
 
           JOptionPane.showMessageDialog(null,"Funcionário salvo com sucesso!");
@@ -72,6 +100,8 @@ public class InterfaceCadastroFuncionario extends JFrame{
           JOptionPane.showMessageDialog(null,"Algo de errado aconteceu! Tente Novamente!");
 
         }
+
+
       }
     });
 

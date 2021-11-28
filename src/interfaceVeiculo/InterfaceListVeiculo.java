@@ -45,7 +45,6 @@ public class InterfaceListVeiculo extends JFrame {
     buttonDelete.setBounds(240, 20, 100, 30);
     add(buttonEdit);
 
-
     scrollPane.setViewportView(table);
     DefaultTableModel model = (DefaultTableModel) table.getModel();
     model.addColumn("Modelo");
@@ -69,8 +68,8 @@ public class InterfaceListVeiculo extends JFrame {
         });
 
       }
-    };
-
+    }
+    ;
 
     add(scrollPane);
     setSize(500, 600);
@@ -83,37 +82,22 @@ public class InterfaceListVeiculo extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (table.getSelectedRow() != -1){
+        if (table.getSelectedRow() != -1) {
 
           Veiculo v1 = new Veiculo();
-          v1.setModelo((String) table.getValueAt(table.getSelectedRow(),0));
-          v1.setAutonomia(Float.parseFloat((String) table.getValueAt(table.getSelectedRow(), 1)));
-          v1.setAno((String) table.getValueAt(table.getSelectedRow(),2));
-          v1.setQuantidade(Integer.parseInt((String) table.getValueAt(table.getSelectedRow(),3)));
-          v1.setId((int) table.getValueAt(table.getSelectedRow(),4));
+//          v1.setModelo((String) table.getValueAt(table.getSelectedRow(), 0));
+//          v1.setAutonomia(Float.parseFloat((table.getValueAt(table.getSelectedRow(), 1).toString())));
+//          v1.setAno(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 2).toString()));
+//          v1.setQuantidade(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 3).toString()));
+          v1.setId(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 4).toString()));
 
-          dao.editar(v1);
-          model.setNumRows(0);
-          for (Veiculo v : dao.consultar()) {
+          setVisible(false);
+          new InterfaceEditarVeiculo(v1);
 
-            for (int i = 0; i < 1; i++) {
 
-              model.addRow(new Object[]{
+        } else {
 
-                  v.getModelo(),
-                  v.getAutonomia(),
-                  v.getAno(),
-                  v.getQuantidade(),
-                  v.getId(),
-
-              });
-
-            }
-          };
-
-        }else {
-
-          JOptionPane.showMessageDialog(null,"Edite o Veiculo e selecione a linha após isso click em editar!");
+          JOptionPane.showMessageDialog(null, "Edite o Veiculo e selecione a linha após isso click em editar!");
 
         }
       }
@@ -124,10 +108,10 @@ public class InterfaceListVeiculo extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (table.getSelectedRow() != -1){
+        if (table.getSelectedRow() != -1) {
 
           Veiculo v1 = new Veiculo();
-          v1.setId((int) table.getValueAt(table.getSelectedRow(),4));
+          v1.setId((int) table.getValueAt(table.getSelectedRow(), 4));
 
           dao.deletar(v1);
           model.setNumRows(0);
@@ -146,11 +130,12 @@ public class InterfaceListVeiculo extends JFrame {
               });
 
             }
-          };
+          }
+          ;
 
-        }else {
+        } else {
 
-          JOptionPane.showMessageDialog(null,"Selecione um Veiculo para excluir!");
+          JOptionPane.showMessageDialog(null, "Selecione um Veiculo para excluir!");
 
         }
       }
@@ -168,8 +153,6 @@ public class InterfaceListVeiculo extends JFrame {
     setResizable(false);
     setVisible(true);
   }
-
-
 
 
 }
