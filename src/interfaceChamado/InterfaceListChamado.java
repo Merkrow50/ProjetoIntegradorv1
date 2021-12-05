@@ -100,7 +100,7 @@ public class InterfaceListChamado extends JFrame {
 
         } else {
 
-          JOptionPane.showMessageDialog(null, "Edite o Chamado e selecione a linha após isso click em editar!");
+          JOptionPane.showMessageDialog(null, "Selecione um chamado para editar!");
 
         }
       }
@@ -122,7 +122,7 @@ public class InterfaceListChamado extends JFrame {
 
         } else {
 
-          JOptionPane.showMessageDialog(null, "Selecione um Chamado para excluir!");
+          JOptionPane.showMessageDialog(null, "Selecione um chamado para excluir!");
 
         }
       }
@@ -142,7 +142,7 @@ public class InterfaceListChamado extends JFrame {
 
         } else {
 
-          JOptionPane.showMessageDialog(null, "Selecione um Chamado para Finalizar!");
+          JOptionPane.showMessageDialog(null, "Selecione um chamado para finalizar!");
 
         }
       }

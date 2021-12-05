@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class ArvoreDAO {
 
 
-  public void atualizat(int contador, int soma) {
+  public void atualizar(int contador, int soma) {
     String sql = "UPDATE public.\"arvores\"" +
         "SET contador = ?" +
         "WHERE contador = ?;";

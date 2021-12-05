@@ -1,7 +1,6 @@
 package interfaceVeiculo;
 
 
-import DAO.FuncionarioDao;
 import DAO.VeiculoDao;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -12,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import model.Funcionario;
 import model.Veiculo;
 
 public class InterfaceCadastroVeiculo extends JFrame{
@@ -32,34 +30,22 @@ public class InterfaceCadastroVeiculo extends JFrame{
 
 
     JLabel modeloLabel = new JLabel();
-    modeloLabel.setText("Modelo:");
-    modeloLabel.setBounds(60,90,100, 40);
-    add(modeloLabel);
+    setLabel(modeloLabel,"Modelo:",80,90,100, 40);
 
     JTextField modeloTxFld = new JTextField();
-    modeloTxFld.setBounds(130,100,100, 40);
-    modeloTxFld.setSize(150,20);
-    add(modeloTxFld);
+    setTxtField(modeloTxFld,130,100,150, 20);
 
     JLabel autonomiaLabel = new JLabel();
-    autonomiaLabel.setText("Autonomia:");
-    autonomiaLabel.setBounds(60,120,100, 40);
-    add(autonomiaLabel);
+    setLabel(autonomiaLabel,"Autonomia:",60,120,100, 40);
 
     JTextField autonomiaTxFld = new JTextField();
-    autonomiaTxFld.setBounds(130,130,100, 40);
-    autonomiaTxFld.setSize(150,20);
-    add(autonomiaTxFld);
+    setTxtField(autonomiaTxFld,130,130,150, 20);
 
     JLabel anoLabel = new JLabel();
-    anoLabel.setText("Ano:");
-    anoLabel.setBounds(60,150,100, 40);
-    add(anoLabel);
+    setLabel(anoLabel,"Ano:",100,150,100, 40);
 
     JTextField anoTxFld = new JTextField();
-    anoTxFld.setBounds(130,160,100, 40);
-    anoTxFld.setSize(150,20);
-    add(anoTxFld);
+    setTxtField(anoTxFld,130,160,150, 20);
 
     JButton buttonAddVeiculo = new JButton("Cadastrar");
     buttonAddVeiculo.setBounds(130,220,100, 30);
@@ -91,6 +77,17 @@ public class InterfaceCadastroVeiculo extends JFrame{
 
 
     setVisible(true);
+  }
+
+  public void setLabel(JLabel label, String title, int x, int y, int width, int height){
+    label.setText(title);
+    label.setBounds(x,y,width,height);
+    add(label);
+  }
+
+  public void setTxtField(JTextField field,int x, int y, int width, int height){
+    field.setBounds(x,y,width,height);
+    add(field);
   }
 
 }

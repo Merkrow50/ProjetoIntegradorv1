@@ -87,7 +87,7 @@ public class InterfaceListFuncionario extends JFrame {
 
         } else {
 
-          JOptionPane.showMessageDialog(null, "Edite o Funcionário e selecione a linha após isso click em editar!");
+          JOptionPane.showMessageDialog(null, "Selecione um funcionário para editar!");
 
         }
       }

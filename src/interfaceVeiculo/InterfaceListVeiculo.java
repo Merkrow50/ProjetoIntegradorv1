@@ -50,7 +50,6 @@ public class InterfaceListVeiculo extends JFrame {
     model.addColumn("Modelo");
     model.addColumn("Autonomia");
     model.addColumn("Ano");
-    model.addColumn("Quantidade");
     model.addColumn("Id");
     model.setNumRows(0);
     for (Veiculo v : dao.consultar()) {
@@ -62,7 +61,6 @@ public class InterfaceListVeiculo extends JFrame {
             v.getModelo(),
             v.getAutonomia(),
             v.getAno(),
-            v.getQuantidade(),
             v.getId(),
 
         });
@@ -85,11 +83,7 @@ public class InterfaceListVeiculo extends JFrame {
         if (table.getSelectedRow() != -1) {
 
           Veiculo v1 = new Veiculo();
-//          v1.setModelo((String) table.getValueAt(table.getSelectedRow(), 0));
-//          v1.setAutonomia(Float.parseFloat((table.getValueAt(table.getSelectedRow(), 1).toString())));
-//          v1.setAno(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 2).toString()));
-//          v1.setQuantidade(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 3).toString()));
-          v1.setId(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 4).toString()));
+          v1.setId(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 3).toString()));
 
           setVisible(false);
           new InterfaceEditarVeiculo(v1);
@@ -97,7 +91,7 @@ public class InterfaceListVeiculo extends JFrame {
 
         } else {
 
-          JOptionPane.showMessageDialog(null, "Edite o Veiculo e selecione a linha após isso click em editar!");
+          JOptionPane.showMessageDialog(null, "Selecione um Veiculo para editar!");
 
         }
       }
@@ -111,7 +105,7 @@ public class InterfaceListVeiculo extends JFrame {
         if (table.getSelectedRow() != -1) {
 
           Veiculo v1 = new Veiculo();
-          v1.setId((int) table.getValueAt(table.getSelectedRow(), 4));
+          v1.setId((int) table.getValueAt(table.getSelectedRow(), 3));
 
           dao.deletar(v1);
           model.setNumRows(0);
@@ -124,7 +118,6 @@ public class InterfaceListVeiculo extends JFrame {
                   v.getModelo(),
                   v.getAutonomia(),
                   v.getAno(),
-                  v.getQuantidade(),
                   v.getId(),
 
               });

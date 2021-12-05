@@ -4,17 +4,11 @@ package interfaceChamado;
 import DAO.ChamadoDao;
 import DAO.FuncionarioDao;
 import DAO.VeiculoDao;
-import bd.ConnectionFactory;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -44,40 +38,32 @@ public class InterfaceCadastroChamado extends JFrame {
     );
 
     JLabel funcionarioLabel = new JLabel();
-    funcionarioLabel.setText("Funcionario:");
-    funcionarioLabel.setBounds(60, 90, 100, 40);
-    add(funcionarioLabel);
+    setLabel(funcionarioLabel,"Funcionário:",55, 90, 100, 40);
 
-    JComboBox funcionarioTxFld = new JComboBox();
+    JComboBox funcionarioComboBox = new JComboBox();
     for (int i = 0; i < funcionarioDao.consultar().size(); i++) {
-      funcionarioTxFld.addItem(funcionarioDao.consultar().get(i).getNome());
+      funcionarioComboBox.addItem(funcionarioDao.consultar().get(i).getNome());
     }
-    funcionarioTxFld.setBounds(130, 100, 100, 40);
-    funcionarioTxFld.setSize(150, 20);
-    add(funcionarioTxFld);
+    funcionarioComboBox.setBounds(130, 100, 100, 40);
+    funcionarioComboBox.setSize(150, 20);
+    add(funcionarioComboBox);
 
     JLabel veiculoLabel = new JLabel();
-    veiculoLabel.setText("Veiculo:");
-    veiculoLabel.setBounds(60, 120, 100, 40);
-    add(veiculoLabel);
+    setLabel(veiculoLabel,"Veiculo:",80, 120, 100, 40);
 
-    JComboBox veiculoTxFld = new JComboBox();
+    JComboBox veiculoComboBox = new JComboBox();
     for (int i = 0; i < veiculoDao.consultar().size(); i++) {
-      veiculoTxFld.addItem(veiculoDao.consultar().get(i).getModelo());
+      veiculoComboBox.addItem(veiculoDao.consultar().get(i).getModelo());
     }
-    veiculoTxFld.setBounds(130, 130, 100, 40);
-    veiculoTxFld.setSize(150, 20);
-    add(veiculoTxFld);
+    veiculoComboBox.setBounds(130, 130, 100, 40);
+    veiculoComboBox.setSize(150, 20);
+    add(veiculoComboBox);
 
     JLabel trajetoFimLabel = new JLabel();
-    trajetoFimLabel.setText("Destino:");
-    trajetoFimLabel.setBounds(50, 180, 100, 40);
-    add(trajetoFimLabel);
+    setLabel(trajetoFimLabel,"Destino:",80, 150, 100, 40);
 
     JTextField trajetoFimTxFld = new JTextField();
-    trajetoFimTxFld.setBounds(130, 190, 100, 40);
-    trajetoFimTxFld.setSize(150, 20);
-    add(trajetoFimTxFld);
+    setTxtField(trajetoFimTxFld,130, 160, 150, 20);
 
     JButton buttonAddChamado = new JButton("Cadastrar");
     buttonAddChamado.setBounds(130, 220, 100, 30);
@@ -96,8 +82,8 @@ public class InterfaceCadastroChamado extends JFrame {
         chamado.setFuncionario(funcionario);
 
         chamado.setTrajetoFim(trajetoFimTxFld.getText());
-        chamado.getVeiculo().setId(veiculoDao.consultar().get(veiculoTxFld.getSelectedIndex()).getId());
-        chamado.getFuncionario().setId(funcionarioDao.consultar().get(funcionarioTxFld.getSelectedIndex()).getId());
+        chamado.getVeiculo().setId(veiculoDao.consultar().get(veiculoComboBox.getSelectedIndex()).getId());
+        chamado.getFuncionario().setId(funcionarioDao.consultar().get(funcionarioComboBox.getSelectedIndex()).getId());
         funcionarioDao.funcionarioEmEdicao(chamado.getFuncionario());
         if(chamado.getFuncionario().isHabilitado()){
           if (dao.inserir(chamado)) {
@@ -113,6 +99,17 @@ public class InterfaceCadastroChamado extends JFrame {
       }
     });
     setVisible(true);
+  }
+
+  public void setLabel(JLabel label, String title, int x, int y, int width, int height){
+    label.setText(title);
+    label.setBounds(x,y,width,height);
+    add(label);
+  }
+
+  public void setTxtField(JTextField field,int x, int y, int width, int height){
+    field.setBounds(x,y,width,height);
+    add(field);
   }
 
 }

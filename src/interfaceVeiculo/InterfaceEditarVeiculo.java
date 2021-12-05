@@ -1,7 +1,6 @@
 package interfaceVeiculo;
 
 import DAO.VeiculoDao;
-import interfaceFuncionario.IsHabilitado;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import model.Funcionario;
 import model.Veiculo;
 
 public class InterfaceEditarVeiculo extends JFrame {
@@ -31,44 +29,24 @@ public class InterfaceEditarVeiculo extends JFrame {
         null
     );
     JLabel modeloLabel = new JLabel();
-    modeloLabel.setText("Modelo:");
-    modeloLabel.setBounds(60, 90, 100, 40);
-    add(modeloLabel);
+
+    setLabel(modeloLabel,"Modelo:",80, 90, 100, 40);
 
     JTextField modeloTxFld = new JTextField();
-    modeloTxFld.setBounds(130, 100, 100, 40);
-    modeloTxFld.setSize(150, 20);
-    add(modeloTxFld);
+    setTxtField(modeloTxFld,130, 100, 150, 20);
 
     JLabel autonomiaLabel = new JLabel();
-    autonomiaLabel.setText("Autonomia:");
-    autonomiaLabel.setBounds(60, 120, 100, 40);
-    add(autonomiaLabel);
+
+    setLabel(autonomiaLabel, "Autonomia:",60, 120, 100, 40);
 
     JTextField autonomiaTxFld = new JTextField();
-    autonomiaTxFld.setBounds(130, 130, 100, 40);
-    autonomiaTxFld.setSize(150, 20);
-    add(autonomiaTxFld);
+    setTxtField(autonomiaTxFld,130, 130, 150, 20);
 
     JLabel anoLabel = new JLabel();
-    anoLabel.setText("Ano:");
-    anoLabel.setBounds(60, 150, 100, 40);
-    add(anoLabel);
+    setLabel(anoLabel, "Ano:",100, 150, 100, 40);
 
     JTextField anoTxFld = new JTextField();
-    anoTxFld.setBounds(130, 160, 100, 40);
-    anoTxFld.setSize(150, 20);
-    add(anoTxFld);
-
-    JLabel quantidadeLabel = new JLabel();
-    quantidadeLabel.setText("Quantidade:");
-    quantidadeLabel.setBounds(60, 180, 100, 40);
-    add(quantidadeLabel);
-
-    JTextField quantidadeTxFld = new JTextField();
-    quantidadeTxFld.setBounds(130, 190, 100, 40);
-    quantidadeTxFld.setSize(150, 20);
-    add(quantidadeTxFld);
+    setTxtField(anoTxFld,130, 160, 150, 20);
 
     JButton buttonAddVeiculo = new JButton("Cadastrar");
     buttonAddVeiculo.setBounds(130, 220, 100, 30);
@@ -79,7 +57,6 @@ public class InterfaceEditarVeiculo extends JFrame {
     modeloTxFld.setText(veiculo.getModelo());
     anoTxFld.setText(String.valueOf(veiculo.getAno()));
     autonomiaTxFld.setText(String.valueOf(veiculo.getAutonomia()));
-    quantidadeTxFld.setText(String.valueOf(veiculo.getQuantidade()));
 
     buttonAddVeiculo.addActionListener(new ActionListener() {
       @Override
@@ -93,7 +70,6 @@ public class InterfaceEditarVeiculo extends JFrame {
         veiculo1.setModelo(modeloTxFld.getText());
         veiculo1.setAutonomia(Float.parseFloat((autonomiaTxFld.getText())));
         veiculo1.setAno((Integer.parseInt(anoTxFld.getText())));
-        veiculo1.setQuantidade(Integer.parseInt(quantidadeTxFld.getText()));
         veiculo1.setId(id);
 
         if (dao.editar(veiculo1)) {
@@ -111,6 +87,17 @@ public class InterfaceEditarVeiculo extends JFrame {
     });
 
     setVisible(true);
+  }
+
+  public void setLabel(JLabel label, String title, int x, int y, int width, int height){
+    label.setText(title);
+    label.setBounds(x,y,width,height);
+    add(label);
+  }
+
+  public void setTxtField(JTextField field,int x, int y, int width, int height){
+    field.setBounds(x,y,width,height);
+    add(field);
   }
 
 }

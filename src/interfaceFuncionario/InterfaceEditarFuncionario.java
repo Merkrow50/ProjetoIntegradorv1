@@ -33,29 +33,19 @@ public class InterfaceEditarFuncionario extends JFrame {
     );
 
     JLabel nomeLabel = new JLabel();
-    nomeLabel.setText("Nome:");
-    nomeLabel.setBounds(90, 90, 100, 40);
-    add(nomeLabel);
+    setLabel(nomeLabel,"Nome:",90, 90, 100, 40);
 
     JTextField nomeTxFld = new JTextField();
-    nomeTxFld.setBounds(130, 100, 100, 40);
-    nomeTxFld.setSize(150, 20);
-    add(nomeTxFld);
+    setTxtField(nomeTxFld,130, 100, 150, 20);
 
     JLabel matriculaLabel = new JLabel();
-    matriculaLabel.setText("Matricula:");
-    matriculaLabel.setBounds(90, 120, 100, 40);
-    add(matriculaLabel);
+    setLabel(matriculaLabel,"Matricula:",70, 120, 100, 40);
 
     JTextField matriculaTxFld = new JTextField();
-    matriculaTxFld.setBounds(150, 130, 100, 40);
-    matriculaTxFld.setSize(150, 20);
-    add(matriculaTxFld);
+    setTxtField(matriculaTxFld,130, 130, 150, 20);
 
     JLabel habilitadoLabel = new JLabel();
-    habilitadoLabel.setText("Habilitado:");
-    habilitadoLabel.setBounds(90, 150, 100, 40);
-    add(habilitadoLabel);
+    setLabel(habilitadoLabel,"Habilitado:",65, 150, 100, 40);
 
     IsHabilitado habilitado[] = IsHabilitado.values();
 
@@ -63,8 +53,7 @@ public class InterfaceEditarFuncionario extends JFrame {
     for (IsHabilitado h : habilitado) {
       habilitadoTxFld.addItem(h);
     }
-    habilitadoTxFld.setBounds(150, 160, 100, 40);
-    habilitadoTxFld.setSize(150, 20);
+    habilitadoTxFld.setBounds(130, 160, 150, 20);
     add(habilitadoTxFld);
 
     JButton buttonAddFuncionario = new JButton("Cadastrar");
@@ -120,6 +109,17 @@ public class InterfaceEditarFuncionario extends JFrame {
     });
 
     setVisible(true);
+  }
+
+  public void setLabel(JLabel label, String title, int x, int y, int width, int height){
+    label.setText(title);
+    label.setBounds(x,y,width,height);
+    add(label);
+  }
+
+  public void setTxtField(JTextField field,int x, int y, int width, int height){
+    field.setBounds(x,y,width,height);
+    add(field);
   }
 
 }
